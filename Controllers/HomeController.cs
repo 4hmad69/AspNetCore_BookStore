@@ -40,5 +40,14 @@ namespace AspNetCore_BookStore.Controllers
             }
             return View(vm);
         }
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            return View();
+        }
     }
 }
