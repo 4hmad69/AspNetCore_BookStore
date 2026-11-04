@@ -49,5 +49,35 @@ namespace AspNetCore_BookStore.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult AddAuthor(string Name, string Country)
+        {
+            int newId = _authors.Count > 0 ? _authors.Max(a => a.Id) + 1 : 1;
+            _authors.Add(new Author { Id = newId, Name = Name, Country = Country });
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult AddBook(string Title, decimal Price, int AuthorId)
+        {
+            if (!string.IsNullOrWhiteSpace(Title))
+            {
+                int newId = _books.Count > 0 ? _books.Max(b => b.Id) + 1 : 1;
+                _books.Add(new Book { Id = newId, Title = Title, Price = Price, AuthorId = AuthorId });
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult RemoveBook(int id)
+        {
+            var bookToRemove = _books.FirstOrDefault(b => b.Id == id);
+            if (bookToRemove != null)
+            {
+                _books.Remove(bookToRemove);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
