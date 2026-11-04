@@ -1,32 +1,24 @@
 using System.Diagnostics;
 using AspNetCore_BookStore.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace AspNetCore_BookStore.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+ 
+        private static List<Author> _authors = new List<Author>
         {
-            _logger = logger;
-        }
+            new Author { Id = 1, Name = "J.K. Rowling", Country = "UK" },
+            new Author { Id = 2, Name = "George R.R. Martin", Country = "USA" }
+        };
 
-        public IActionResult Index()
+        private static List<Book> _books = new List<Book>
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+            new Book { Id = 1, Title = "Harry Potter", Price = 20.50m, AuthorId = 1 },
+            new Book { Id = 2, Title = "Game of Thrones", Price = 25.00m, AuthorId = 2 },
+            new Book { Id = 3, Title = "Chamber of Secrets", Price = 22.00m, AuthorId = 1 }
+        };
     }
 }
