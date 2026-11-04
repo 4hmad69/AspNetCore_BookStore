@@ -1,7 +1,8 @@
 using System.Diagnostics;
 using AspNetCore_BookStore.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using AspNetCore_BookStore.ViewModels;
+using System.Linq;
 
 namespace AspNetCore_BookStore.Controllers
 {
@@ -20,5 +21,24 @@ namespace AspNetCore_BookStore.Controllers
             new Book { Id = 2, Title = "Game of Thrones", Price = 25.00m, AuthorId = 2 },
             new Book { Id = 3, Title = "Chamber of Secrets", Price = 22.00m, AuthorId = 1 }
         };
+        public IActionResult Index()
+        {
+            var vm = new HomeViewModel();
+            vm.Authors = _authors;
+            vm.Books = new List<BookCardViewModel>();
+
+            foreach (var book in _books)
+            {
+                var author = _authors.FirstOrDefault(a => a.Id == book.AuthorId);
+                vm.Books.Add(new BookCardViewModel
+                {
+                    Id = book.Id,
+                    Title = book.Title,
+                    Price = book.Price,
+                    AuthorName = author != null ? author.Name : "Unknown"
+                });
+            }
+            return View(vm);
+        }
     }
 }
